@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>TODO LIST</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        h1 {
+            font-family: Verdana, Arial, Helvetica, sans-serif; /* Рубленый шрифт заголовка */
+        }
+        p {
+            font-family: 'Times New Roman', Times, serif; /* Шрифт с засечками */
+            font-style: italic; /* Курсивное начертание */
+        }
+    </style>
+
+    <script>
+        var list_item;
+
+        var json_data = "{\n" +
+            "  \"list\": \n" +
+            "  [\n" +
+            "    {\"task_id\":1, \"task_name\":\"Выгулять собаку\",\"task_description\":\"Собака хочет погулять\", \"task_status\":true},\n" +
+            "    {\"task_id\":2, \"task_name\":\"Почистить зубы\",\"task_description\":\"Профилактика кариеса\", \"task_status\":true},\n" +
+            "    {\"task_id\":3, \"task_name\":\"Написать админку для сайта\",\"task_description\":\"Сайт job4j без админки\", \"task_status\":false}\n" +
+            "\n" +
+            "  ]\n" +
+            "}";
+
+        function element(id) {
+            return document.getElementById(id);
+        }
+
+        $(document).ready(function () {
+            list_item = element('list_item').outerHTML;
+            element('list_item').outerHTML = '';
+            addRows(json_data);
+        } );
+
+        function addRow(task_id, task_name, task_description, task_status) {
+            $('#table > tbody:last-child')
+            .append(list_item
+                .replace('$task_id', task_id)
+                .replace('$task_name', task_name)
+                .replace('$task_description', task_description)
+                .replace('$task_status', task_status)
+            );
+        }
+
+        function addRows(json) {
+            var obj = JSON.parse(json);
+            for (var j = 0; j < obj.list.length; j++) {
+                addRow(
+                    obj.list[j].task_id,
+                    obj.list[j].task_name,
+                    obj.list[j].task_description,
+                    obj.list[j].task_status
+                )
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <h2>Список дел на сегодня</h2>
+    <p>Всё приходит к тому, кто, ожидая, не теряет времени зря. - Томас Эдисон</p>
+    <br>
+    <form>
+        <div class="task-name">
+            <label for="taskName">Название задания</label>
+            <input type="text" class="form-control" id="taskName" placeholder="введите название задания">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="description">Описание задания</label>
+            <textarea class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <button type="reset" class="btn btn-success" id="submitButton"
+            onclick="addRows(json_data);">
+                Добавить задачу
+        </button>
+    </form>
+    <br><br>
+
+    <h3>Список всех текущих заданий и статус выполнения</h3>
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th scope="col">№ задачи</th>
+            <th scope="col">Название</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Статус</th>
+        </tr>
+        </thead>
+        <tbody id = "tbody">
+        <tr id="list_item">
+            <th scope="row">$task_id</th>
+            <td>$task_name</td>
+            <td>$task_description</td>
+            <td>
+                $task_status
+<!--                <div class="form-check form-check-inline">-->
+<!--                    <input class="form-check-input" type="checkbox" id="Checkbox1" value="option1">-->
+<!--                    <label class="form-check-label" for="Checkbox1">В процессе...</label>-->
+<!--                </div>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
