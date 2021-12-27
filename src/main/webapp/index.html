@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
@@ -37,29 +38,82 @@
         $(document).ready(function () {
             list_item = element('list_item').outerHTML;
             element('list_item').outerHTML = '';
-            addRows(json_data);
+
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/job4j_todo/task_list',
+                dataType: 'json'
+            }).done(function (data) {
+                addRow(data);
+            }).fail(function (err) {
+                console.log(err);
+            });
         } );
 
-        function addRow(task_id, task_name, task_description, task_status) {
-            $('#table > tbody:last-child')
-            .append(list_item
-                .replace('$task_id', task_id)
-                .replace('$task_name', task_name)
-                .replace('$task_description', task_description)
-                .replace('$task_status', task_status)
-            );
+        function addRow(data) {
+            $.each(data, function (i, item) {
+                $('#table > tbody:last-child')
+                    .append(list_item
+                        .replace('$task_id', item.id)
+                        .replace('$task_name', item.name)
+                        .replace('$task_description', item.description)
+                        .replace('$task_status', item.done)
+                    );
+            });
         }
 
-        function addRows(json) {
-            var obj = JSON.parse(json);
-            for (var j = 0; j < obj.list.length; j++) {
-                addRow(
-                    obj.list[j].task_id,
-                    obj.list[j].task_name,
-                    obj.list[j].task_description,
-                    obj.list[j].task_status
-                )
-            }
+        function addTaskFromDb(data) {
+            $('#table > tbody:last-child')
+                .append(list_item
+                    .replace('$task_id', item.id)
+                    .replace('$task_name', item.name)
+                    .replace('$task_description', item.description)
+                    .replace('$task_status', item.done)
+                );
+        }
+
+        // function addRows(json) {
+        //     console.log('Что приходит в JSON');
+        //     console.log(json);
+        //     var obj = JSON.parse(json);
+        //     console.log('Как преобразуется JSON');
+        //     console.log(obj);
+        //     for (var j = 0; j < obj.list.length; j++) {
+        //         addRow(
+        //             obj.list[j].id,
+        //             obj.list[j].name,
+        //             obj.list[j].description,
+        //             obj.list[j].done
+        //         )
+        //     }
+        // }
+
+        function getTaskList() {
+            var task_id = 0;
+
+            console.log($('#taskName').val());
+            console.log($('#description').val());
+            console.log(new Date().toLocaleString());
+
+            $.ajax({
+                type: 'POST',
+                crossdomain: true,
+                url: 'http://localhost:8080/job4j_todo/task_list',
+                data: JSON.stringify({
+                    id: task_id ,
+                    name: $('#taskName').val(),
+                    description: $('#description').val(),
+                    done: false
+                }),
+                dataType: 'json'
+            }).done(function (data) {
+                addTaskFromDb(data);
+                console.log('Response OK 200');
+                console.log(data);
+            }).fail(function (err) {
+                console.log('Response with error');
+                console.log(err);
+            });
         }
     </script>
 
@@ -82,7 +136,7 @@
             <textarea class="form-control" id="description" rows="3"></textarea>
         </div>
         <button type="reset" class="btn btn-success" id="submitButton"
-            onclick="addRows(json_data);">
+            onclick="getTaskList()">
                 Добавить задачу
         </button>
     </form>

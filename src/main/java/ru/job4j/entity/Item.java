@@ -9,22 +9,26 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private int id;
 
-    @Column
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
     private String description;
 
-    @Column
+    @Column(name = "created")
     private LocalDateTime created;
 
-    @Column
+    @Column(name = "done")
     private boolean done;
 
     public Item() {
     }
 
-    public Item(String description, LocalDateTime created, boolean done) {
+    public Item(String name, String description, LocalDateTime created, boolean done) {
+        this.name = name;
         this.description = description;
         this.created = created;
         this.done = done;
@@ -36,6 +40,14 @@ public class Item {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -66,6 +78,7 @@ public class Item {
     public String toString() {
         return "Item{"
                 + "id=" + id
+                + ", name='" + name + '\''
                 + ", description='" + description + '\''
                 + ", created=" + created
                 + ", done=" + done
