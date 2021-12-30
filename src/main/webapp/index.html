@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
     <style>
         h1 {
             font-family: Verdana, Arial, Helvetica, sans-serif; /* Рубленый шрифт заголовка */
@@ -17,105 +18,6 @@
             font-style: italic; /* Курсивное начертание */
         }
     </style>
-
-    <script>
-        var list_item;
-
-        var json_data = "{\n" +
-            "  \"list\": \n" +
-            "  [\n" +
-            "    {\"task_id\":1, \"task_name\":\"Выгулять собаку\",\"task_description\":\"Собака хочет погулять\", \"task_status\":true},\n" +
-            "    {\"task_id\":2, \"task_name\":\"Почистить зубы\",\"task_description\":\"Профилактика кариеса\", \"task_status\":true},\n" +
-            "    {\"task_id\":3, \"task_name\":\"Написать админку для сайта\",\"task_description\":\"Сайт job4j без админки\", \"task_status\":false}\n" +
-            "\n" +
-            "  ]\n" +
-            "}";
-
-        function element(id) {
-            return document.getElementById(id);
-        }
-
-        $(document).ready(function () {
-            list_item = element('list_item').outerHTML;
-            element('list_item').outerHTML = '';
-
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/job4j_todo/task_list',
-                dataType: 'json'
-            }).done(function (data) {
-                addRow(data);
-            }).fail(function (err) {
-                console.log(err);
-            });
-        } );
-
-        function addRow(data) {
-            $.each(data, function (i, item) {
-                $('#table > tbody:last-child')
-                    .append(list_item
-                        .replace('$task_id', item.id)
-                        .replace('$task_name', item.name)
-                        .replace('$task_description', item.description)
-                        .replace('$task_status', item.done)
-                    );
-            });
-        }
-
-        function addTaskFromDb(data) {
-            $('#table > tbody:last-child')
-                .append(list_item
-                    .replace('$task_id', item.id)
-                    .replace('$task_name', item.name)
-                    .replace('$task_description', item.description)
-                    .replace('$task_status', item.done)
-                );
-        }
-
-        // function addRows(json) {
-        //     console.log('Что приходит в JSON');
-        //     console.log(json);
-        //     var obj = JSON.parse(json);
-        //     console.log('Как преобразуется JSON');
-        //     console.log(obj);
-        //     for (var j = 0; j < obj.list.length; j++) {
-        //         addRow(
-        //             obj.list[j].id,
-        //             obj.list[j].name,
-        //             obj.list[j].description,
-        //             obj.list[j].done
-        //         )
-        //     }
-        // }
-
-        function getTaskList() {
-            var task_id = 0;
-
-            console.log($('#taskName').val());
-            console.log($('#description').val());
-            console.log(new Date().toLocaleString());
-
-            $.ajax({
-                type: 'POST',
-                crossdomain: true,
-                url: 'http://localhost:8080/job4j_todo/task_list',
-                data: JSON.stringify({
-                    id: task_id ,
-                    name: $('#taskName').val(),
-                    description: $('#description').val(),
-                    done: false
-                }),
-                dataType: 'json'
-            }).done(function (data) {
-                addTaskFromDb(data);
-                console.log('Response OK 200');
-                console.log(data);
-            }).fail(function (err) {
-                console.log('Response with error');
-                console.log(err);
-            });
-        }
-    </script>
 
 </head>
 <body>
@@ -143,6 +45,12 @@
     <br><br>
 
     <h3>Список всех текущих заданий и статус выполнения</h3>
+    <br>
+    <div class="form-check form-check-inline" id="showAllTasks">
+        <input class="form-check-input" type="checkbox" id="showAll" value="showFinished"
+               onclick="checkAllTasks()" checked>
+        <label class="form-check-label" for="showAll" id="showAllLabel">Показать все задания</label>
+    </div>
     <table class="table table-striped" id="table">
         <thead>
         <tr>
@@ -158,15 +66,18 @@
             <td>$task_name</td>
             <td>$task_description</td>
             <td>
-                $task_status
-<!--                <div class="form-check form-check-inline">-->
-<!--                    <input class="form-check-input" type="checkbox" id="Checkbox1" value="option1">-->
-<!--                    <label class="form-check-label" for="Checkbox1">В процессе...</label>-->
-<!--                </div>-->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="$check_id" value="option">
+                    <label class="form-check-label" for="$check_id">Статус задания</label>
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
+    <button type="reset" class="btn btn-success" id="testButton"
+            onclick="testJSON(json_test)">
+        Протестить вывод элементов
+    </button>
 </div>
 
 

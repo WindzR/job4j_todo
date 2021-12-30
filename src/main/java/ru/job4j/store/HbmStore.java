@@ -83,6 +83,17 @@ public class HbmStore implements Store, AutoCloseable {
     }
 
     @Override
+    public List<Item> findAllUnfinished() {
+        List<Item> items = null;
+        Session session = sf.getCurrentSession();
+        session.beginTransaction();
+        items = session.createQuery("from Item where done = false")
+                .getResultList();
+        session.getTransaction().commit();
+        return items;
+    }
+
+    @Override
     public List<Item> findByName(String name) {
         List<Item> items = null;
         Session session = sf.getCurrentSession();

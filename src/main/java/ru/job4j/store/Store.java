@@ -14,6 +14,8 @@ public interface Store extends AutoCloseable {
 
     List<Item> findAll();
 
+    List<Item> findAllUnfinished();
+
     List<Item> findByName(String name);
 
     Item findById(int id);
