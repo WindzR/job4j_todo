@@ -32,7 +32,6 @@ public class TaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         resp.setContentType("application/json; charset=utf-8");
-//        initTasks();
         tasks = store.findAll();
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(tasks);
@@ -48,8 +47,6 @@ public class TaskServlet extends HttpServlet {
         System.out.println("Object from JSON > " + itemFromJSON);
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         itemFromJSON.setCreated(time);
-//        int itemId = tasks.get(tasks.size() - 1).getId();
-//        item.setId(itemId++);
         System.out.println("Prepared item for BD > " + itemFromJSON);
         Item itemFromDB = store.add(itemFromJSON);
         tasks.add(itemFromDB);
@@ -63,19 +60,5 @@ public class TaskServlet extends HttpServlet {
         output.write(json.getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();
-    }
-
-    private void initTasks() {
-        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        Item item1 = new Item("Go for a work", "Иначе вынесут тебя", time, true);
-        item1.setId(1);
-        Item item2 = new Item("Play with dog", "Засрет квартиру", time, true);
-        item2.setId(2);
-        Item item3 = new Item("Develop instagram",
-                "Нужно обеспечить свою старость", time, false);
-        item3.setId(3);
-        tasks.add(item1);
-        tasks.add(item2);
-        tasks.add(item3);
     }
 }
