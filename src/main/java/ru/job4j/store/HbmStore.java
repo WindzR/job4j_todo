@@ -31,7 +31,7 @@ public class HbmStore implements Store, AutoCloseable {
     public Item add(Item item) {
         Session session = sf.getCurrentSession();
         session.beginTransaction();
-        session.save(item);
+        session.saveOrUpdate(item);
         session.getTransaction().commit();
         return item;
     }
@@ -42,13 +42,10 @@ public class HbmStore implements Store, AutoCloseable {
         Session session = sf.getCurrentSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "update Item set name = :nameParam,"
-                        + " description = :descriptionParam,"
+                "update Item set"
                         + " created = :createdParam,"
                         + " done = :doneParam"
                         + " where id = :idParam");
-        query.setParameter("nameParam", item.getName());
-        query.setParameter("descriptionParam", item.getDescription());
         query.setParameter("createdParam", item.getCreated());
         query.setParameter("doneParam", item.isDone());
         query.setParameter("idParam", id);

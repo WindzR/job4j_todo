@@ -57,6 +57,7 @@ $(document).ready(function () {
 function addRow(data) {
     $.each(data, function (i, item) {
         addTaskFromDb(item);
+        textStatus(item.id, item.done);
     });
 }
 
@@ -65,6 +66,7 @@ function addRowUnfinished(data) {
         if (item.done === false) {
             console.log('Выводиться должны только false -> ' + item.done);
             addTaskFromDb(item);
+            textStatus(item.id, item.done);
         }
     });
 }
@@ -78,6 +80,7 @@ function addTaskFromDb(item) {
             .replace('$task_description', item.description)
             .replace('$check_id', item.id)
             .replace('$check_id', item.id)
+            .replace('$check_label', item.id)
         );
 }
 
@@ -101,6 +104,37 @@ function getTaskList() {
         dataType: 'json'
     }).done(function (data) {
         addTaskFromDb(data);
+        textStatus(id, checkStatus);
+    }).fail(function (err) {
+        console.log('Response with error');
+        console.log(err);
+    });
+}
+
+$(document).on('change', 'input[class="status-check-input"]', function () {
+    let clickId = $(this).prop('id');
+    var labelText = $('label[for='+  clickId  +']');
+    if ($(this).is(':checked')){
+        postStatus(clickId, true);
+        labelText.text('Выполнено');
+    } else {
+        postStatus(clickId, false);
+        labelText.text('В процессе...');
+    }
+});
+
+function postStatus(idTask, statusTask) {
+    $.ajax({
+        type: 'POST',
+        crossdomain: true,
+        url: 'http://localhost:8080/job4j_todo/task_list',
+        data: JSON.stringify({
+            id: idTask ,
+            done: statusTask
+        }),
+        dataType: 'json'
+    }).done(function (data) {
+        console.log('JSON --> ' + data);
     }).fail(function (err) {
         console.log('Response with error');
         console.log(err);
@@ -110,7 +144,19 @@ function getTaskList() {
 function setStatus(data) {
     $.each(data, function (i, item) {
         document.getElementById(item.id).checked = item.done;
+        let checkStatus = item.done;
+        textStatus(item.id, checkStatus);
     });
+}
+
+function textStatus(id, checkStatus) {
+    var labelText = $('label[for='+  id  +']');
+    console.log('labelText ' + labelText.text() );
+    if (checkStatus) {
+        labelText.text('Выполнено');
+    } else {
+        labelText.text('В процессе...');
+    }
 }
 
 function checkAllTasks() {
@@ -126,14 +172,5 @@ function checkAllTasks() {
     }
 }
 
-function testJSON(data) {
-    clearTable();
-    clearListItem();
-    $.each(data, function (i, item) {
-        if (item.id === 3) {
-            console.log('Выводиться должны элементы id = 3 -> ' + item.name);
-            console.log('JSON с id = ' + i + ' -> ' + item[i]);
-            addTaskFromDb(item);
-        }
-    });
+function testJSON() {
 }

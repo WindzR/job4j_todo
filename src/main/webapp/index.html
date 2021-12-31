@@ -49,7 +49,7 @@
     <div class="form-check form-check-inline" id="showAllTasks">
         <input class="form-check-input" type="checkbox" id="showAll" value="showFinished"
                onclick="checkAllTasks()" checked>
-        <label class="form-check-label" for="showAll" id="showAllLabel">Показать все задания</label>
+        <label class="check-all-label" for="showAll" id="showAllLabel">Показать все задания</label>
     </div>
     <table class="table table-striped" id="table">
         <thead>
@@ -66,9 +66,9 @@
             <td>$task_name</td>
             <td>$task_description</td>
             <td>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="$check_id" value="option">
-                    <label class="form-check-label" for="$check_id">Статус задания</label>
+                <div class="checkbox-status">
+                    <input class="status-check-input" type="checkbox" id="$check_id" value="option">
+                    <label class="status-check-label" for="$check_id">$check_status</label>
                 </div>
             </td>
         </tr>
