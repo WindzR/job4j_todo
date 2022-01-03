@@ -9,9 +9,20 @@
     <servlet-name>TaskServlet</servlet-name>
     <servlet-class>ru.job4j.servlets.TaskServlet</servlet-class>
   </servlet>
+
+  <servlet>
+    <servlet-name>UpdateStatusServlet</servlet-name>
+    <servlet-class>ru.job4j.servlets.UpdateStatusServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>TaskServlet</servlet-name>
     <url-pattern>/task_list</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>UpdateStatusServlet</servlet-name>
+    <url-pattern>/task_list/update</url-pattern>
   </servlet-mapping>
 
 

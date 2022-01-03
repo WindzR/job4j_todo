@@ -127,7 +127,7 @@ function postStatus(idTask, statusTask) {
     $.ajax({
         type: 'POST',
         crossdomain: true,
-        url: 'http://localhost:8080/job4j_todo/task_list',
+        url: 'http://localhost:8080/job4j_todo/task_list/update',
         data: JSON.stringify({
             id: idTask ,
             done: statusTask

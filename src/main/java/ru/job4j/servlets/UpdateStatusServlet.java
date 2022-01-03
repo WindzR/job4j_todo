@@ -15,40 +15,22 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public class TaskServlet extends HttpServlet {
+public class UpdateStatusServlet extends HttpServlet {
 
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        Store store = HbmStore.instOf();
-        List<Item> tasks = new CopyOnWriteArrayList<>();
-        resp.setContentType("application/json; charset=utf-8");
-        tasks = store.findAll();
-        OutputStream output = resp.getOutputStream();
-        String json = GSON.toJson(tasks);
-        output.write(json.getBytes(StandardCharsets.UTF_8));
-        output.flush();
-        output.close();
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Item itemFromJSON = GSON.fromJson(req.getReader(), Item.class);
         System.out.println("Object from JSON > " + itemFromJSON);
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         itemFromJSON.setCreated(time);
         System.out.println("Prepared item for BD > " + itemFromJSON);
         Store store = HbmStore.instOf();
-        Item itemFromDB = store.add(itemFromJSON);
-        resp.setContentType("application/json; charset=utf-8");
+        store.replace(itemFromJSON.getId(), itemFromJSON);
         OutputStream output = resp.getOutputStream();
-        String json = GSON.toJson(itemFromDB);
+        String json = GSON.toJson(itemFromJSON);
         output.write(json.getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();
