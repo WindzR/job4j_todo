@@ -17,5 +17,6 @@
         <property name="use_sql_comments">true</property>
 
         <mapping class="ru.job4j.entity.Item" />
+        <mapping class="ru.job4j.entity.User" />
     </session-factory>
 </hibernate-configuration>

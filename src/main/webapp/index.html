@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
     <script src="script.js"></script>
     <style>
         h1 {
@@ -22,12 +24,23 @@
 </head>
 <body>
 
+<div class="menubar">
+    <ul class="menu">
+        <li class="nav-item">
+            <a class="nav-link" href="/auth.do">Выйти</a>
+        </li>
+        <li class="nav-out">
+            <a class="nav-user" href="/auth.do">${user.name}</a>
+        </li>
+    </ul>
+</div>
+
 
 <div class="container-fluid">
     <h2>Список дел на сегодня</h2>
     <p>Всё приходит к тому, кто, ожидая, не теряет времени зря. - Томас Эдисон</p>
     <br>
-    <form>
+    <form class="task-form">
         <div class="task-name">
             <label for="taskName">Название задания</label>
             <input type="text" class="form-control" id="taskName" placeholder="введите название задания">
@@ -52,11 +65,13 @@
         <label class="check-all-label" for="showAll" id="showAllLabel">Показать все задания</label>
     </div>
     <table class="table table-striped" id="table">
-        <thead>
+        <thead id="table-head">
         <tr>
             <th scope="col">№ задачи</th>
             <th scope="col">Название</th>
             <th scope="col">Описание</th>
+            <th scope="col">Категория</th>
+            <th scope="col">Автор</th>
             <th scope="col">Статус</th>
         </tr>
         </thead>
@@ -65,6 +80,8 @@
             <th scope="row">$task_id</th>
             <td>$task_name</td>
             <td>$task_description</td>
+            <td>$task_category</td>
+            <td>$task_author</td>
             <td>
                 <div class="checkbox-status">
                     <input class="status-check-input" type="checkbox" id="$check_id" value="option">

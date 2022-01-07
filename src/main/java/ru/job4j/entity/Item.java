@@ -24,6 +24,14 @@ public class Item {
     @Column(name = "done")
     private boolean done;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST,
+                            CascadeType.MERGE,
+                            CascadeType.DETACH,
+                            CascadeType.REFRESH},
+                        fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
     public Item() {
     }
 
@@ -82,6 +90,7 @@ public class Item {
                 + ", description='" + description + '\''
                 + ", created=" + created
                 + ", done=" + done
+                + ", author=" + author
                 + '}';
     }
 }

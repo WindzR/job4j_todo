@@ -2,7 +2,12 @@
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
@@ -15,6 +20,16 @@
     <servlet-class>ru.job4j.servlets.UpdateStatusServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>AuthServlet</servlet-name>
+    <servlet-class>ru.job4j.servlets.AuthServlet</servlet-class>
+  </servlet>
+
+<!--  <filter>-->
+<!--    <filter-name>AuthFilter</filter-name>-->
+<!--    <filter-class>ru.job4j.filter.AuthFilter</filter-class>-->
+<!--  </filter>-->
+
   <servlet-mapping>
     <servlet-name>TaskServlet</servlet-name>
     <url-pattern>/task_list</url-pattern>
@@ -25,5 +40,14 @@
     <url-pattern>/task_list/update</url-pattern>
   </servlet-mapping>
 
+  <servlet-mapping>
+    <servlet-name>AuthServlet</servlet-name>
+    <url-pattern>/auth.do</url-pattern>
+  </servlet-mapping>
+
+<!--  <filter-mapping>-->
+<!--    <filter-name>AuthFilter</filter-name>-->
+<!--    <url-pattern>/task_list/index.jsp</url-pattern>-->
+<!--  </filter-mapping>-->
 
 </web-app>

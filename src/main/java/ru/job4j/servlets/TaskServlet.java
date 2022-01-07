@@ -25,10 +25,12 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        req.setAttribute("user", req.getSession().getAttribute("user"));
         Store store = HbmStore.instOf();
         List<Item> tasks = new CopyOnWriteArrayList<>();
         resp.setContentType("application/json; charset=utf-8");
         tasks = store.findAll();
+        System.out.println("Список заданий --> " + tasks);
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(tasks);
         output.write(json.getBytes(StandardCharsets.UTF_8));

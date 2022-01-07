@@ -14,6 +14,7 @@ function clearTable() {
 
 function clearListItem() {
     list_item = element('list_item').outerHTML;
+    console.log('list_item in clearListItem --> ' + list_item);
     element('list_item').outerHTML = '';
 }
 
@@ -78,9 +79,9 @@ function addTaskFromDb(item) {
             .replace('$task_id', item.id)
             .replace('$task_name', item.name)
             .replace('$task_description', item.description)
+            .replace('$task_author', item.author.name)
             .replace('$check_id', item.id)
             .replace('$check_id', item.id)
-            .replace('$check_label', item.id)
         );
 }
 
