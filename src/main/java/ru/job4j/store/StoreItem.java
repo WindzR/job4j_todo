@@ -4,7 +4,7 @@ import ru.job4j.entity.Item;
 
 import java.util.List;
 
-public interface Store extends AutoCloseable {
+public interface StoreItem extends AutoCloseable {
 
     Item add(Item item);
 

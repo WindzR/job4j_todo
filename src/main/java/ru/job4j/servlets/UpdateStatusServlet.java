@@ -3,10 +3,9 @@ package ru.job4j.servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.job4j.entity.Item;
-import ru.job4j.store.HbmStore;
-import ru.job4j.store.Store;
+import ru.job4j.store.HbmStoreItem;
+import ru.job4j.store.StoreItem;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +26,7 @@ public class UpdateStatusServlet extends HttpServlet {
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         itemFromJSON.setCreated(time);
         System.out.println("Prepared item for BD > " + itemFromJSON);
-        Store store = HbmStore.instOf();
+        StoreItem store = HbmStoreItem.instOf();
         store.replace(itemFromJSON.getId(), itemFromJSON);
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(itemFromJSON);

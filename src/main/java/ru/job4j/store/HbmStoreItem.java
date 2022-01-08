@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import java.util.List;
 import java.util.function.Function;
 
-public class HbmStore implements Store, AutoCloseable {
+public class HbmStoreItem implements StoreItem, AutoCloseable {
 
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure().build();
@@ -22,10 +22,10 @@ public class HbmStore implements Store, AutoCloseable {
             .buildMetadata().buildSessionFactory();
 
     private static final class Lazy {
-        private static final Store INST = new HbmStore();
+        private static final StoreItem INST = new HbmStoreItem();
     }
 
-    public static Store instOf() {
+    public static StoreItem instOf() {
         return Lazy.INST;
     }
 
