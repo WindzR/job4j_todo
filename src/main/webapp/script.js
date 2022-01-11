@@ -2,6 +2,8 @@ var list_item;
 
 var json_test;
 
+var user;
+
 function element(id) {
     return document.getElementById(id);
 }
@@ -21,7 +23,7 @@ function clearListItem() {
 function getRequestAllTasks() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/job4j_todo/task_list',
+        url: 'http://localhost:8080/job4j_todo/task_list.do',
         dataType: 'json'
     }).done(function (data) {
         addRow(data);
@@ -34,10 +36,25 @@ function getRequestAllTasks() {
     });
 }
 
+function getUser() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/job4j_todo/user.do',
+        dataType: 'json'
+    }).done(function (data) {
+        user = data;
+        console.log('USER Response OK 200');
+        console.log('User JSON -> ' + user.name);
+        setUser();
+    }).fail(function (err) {
+        console.log(err);
+    });
+}
+
 function getRequestUnfinishedTasks() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/job4j_todo/task_list',
+        url: 'http://localhost:8080/job4j_todo/task_list.do',
         dataType: 'json'
     }).done(function (data) {
         addRowUnfinished(data);
@@ -52,6 +69,7 @@ function getRequestUnfinishedTasks() {
 
 $(document).ready(function () {
     clearListItem();
+    getUser();
     getRequestAllTasks();
 } );
 
@@ -70,6 +88,14 @@ function addRowUnfinished(data) {
             textStatus(item.id, item.done);
         }
     });
+}
+
+function setUser() {
+    let userHTML = element('log_user').innerHTML;
+    let name = user.name;
+    console.log('userHTML --> ' + userHTML);
+    element('log_user').innerHTML = name;
+    console.log('setUser user.name --> ' + name);
 }
 
 function addTaskFromDb(item) {
@@ -95,12 +121,13 @@ function getTaskList() {
     $.ajax({
         type: 'POST',
         crossdomain: true,
-        url: 'http://localhost:8080/job4j_todo/task_list',
+        url: 'http://localhost:8080/job4j_todo/task_list.do',
         data: JSON.stringify({
             id: task_id ,
             name: $('#taskName').val(),
             description: $('#description').val(),
-            done: false
+            done: false,
+            author : user
         }),
         dataType: 'json'
     }).done(function (data) {

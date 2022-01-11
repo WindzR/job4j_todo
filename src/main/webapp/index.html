@@ -27,10 +27,10 @@
 <div class="menubar">
     <ul class="menu">
         <li class="nav-item">
-            <a class="nav-link" href="/auth.do">Выйти</a>
+            <a class="nav-link" href="logout.do" id="log_out">Выйти</a>
         </li>
         <li class="nav-out">
-            <a class="nav-user" href="/auth.do">${user.name}</a>
+            <a class="nav-user" href="auth.do" id="log_user">$user_name</a>
         </li>
     </ul>
 </div>
@@ -91,8 +91,11 @@
         </tr>
         </tbody>
     </table>
+    <div>
+        <input id="user_attr" type="hidden" value='${}'>
+    </div>
     <button type="reset" class="btn btn-success" id="testButton"
-            onclick="testJSON(json_test)">
+            onclick="setUser()">
         Протестить вывод элементов
     </button>
 </div>

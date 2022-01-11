@@ -25,7 +25,6 @@ public class Item {
     private boolean done;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,
-                            CascadeType.MERGE,
                             CascadeType.DETACH,
                             CascadeType.REFRESH},
                         fetch = FetchType.EAGER)

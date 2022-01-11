@@ -33,12 +33,12 @@
         }
     </script>
 
-    <title>Биржа вакансий</title>
+    <title>Регистрация</title>
 </head>
 <body>
 <div class="container pt-3">
     <div class="row">
-        <div class="card" style="width: 100%">
+        <div class="card" style="width: 50%">
             <div class="card-header">
                 Регистрация
             </div>
@@ -56,6 +56,7 @@
                         <label>Введите пароль :</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
+                    <br>
                     <button type="submit" class="btn btn-primary" onclick="return validate();">Зарегистрироваться</button>
                 </form>
             </div>

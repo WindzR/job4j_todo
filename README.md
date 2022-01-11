@@ -1,7 +1,7 @@
 # job4j_todo
 Проект список заданий из курса [job4j](https://job4j.ru/).
 
-![todo_1](images/To_do_list3.jpg)
+![todo_1](images/To_do_list4.jpg)
 ![todo_2](images/To_do_list2.jpg)
 
 
