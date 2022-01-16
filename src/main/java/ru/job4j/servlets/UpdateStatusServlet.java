@@ -3,8 +3,7 @@ package ru.job4j.servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.job4j.entity.Item;
-import ru.job4j.store.HbmStoreItem;
-import ru.job4j.store.StoreItem;
+import ru.job4j.store.ItemHbmStore;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +25,8 @@ public class UpdateStatusServlet extends HttpServlet {
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         itemFromJSON.setCreated(time);
         System.out.println("Prepared item for BD > " + itemFromJSON);
-        StoreItem store = HbmStoreItem.instOf();
-        store.replace(itemFromJSON.getId(), itemFromJSON);
+        ItemHbmStore store = ItemHbmStore.instOf();
+        store.update(itemFromJSON.getId(), itemFromJSON);
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(itemFromJSON);
         output.write(json.getBytes(StandardCharsets.UTF_8));

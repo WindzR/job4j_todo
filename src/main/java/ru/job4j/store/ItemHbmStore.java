@@ -1,60 +1,44 @@
 package ru.job4j.store;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.entity.Item;
 
 import javax.persistence.Query;
 import java.util.List;
 import java.util.function.Function;
 
-public class HbmStoreItem implements StoreItem, AutoCloseable {
-
-    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure().build();
-
-    private final SessionFactory sf = new MetadataSources(registry)
-            .buildMetadata().buildSessionFactory();
+public class ItemHbmStore extends AbstractStore<Item> {
 
     private static final class Lazy {
-        private static final StoreItem INST = new HbmStoreItem();
+        private static final ItemHbmStore INST = new ItemHbmStore();
     }
 
-    public static StoreItem instOf() {
-        return Lazy.INST;
+    public static ItemHbmStore instOf() {
+        return ItemHbmStore.Lazy.INST;
     }
 
     @Override
-    public Item add(Item item) {
+    public Item save(Item item) {
         return this.tx(
             session -> {
-                session.saveOrUpdate(item);
+                session.save(item);
                 return item;
             }
         );
     }
 
     @Override
-    public boolean replace(int id, Item item) {
+    public Item update(int id, Item item) {
         return this.tx(
                 session -> {
-                    boolean rsl;
                     final Query query = session.createQuery(
-                "update Item set"
-                        + " created = :createdParam,"
-                        + " done = :doneParam"
-                        + " where id = :idParam");
-                    query.setParameter("createdParam", item.getCreated());
-                    query.setParameter("doneParam", item.isDone());
-                    query.setParameter("idParam", id);
-                    int update = query.executeUpdate();
-                    rsl = update > 0;
-                    return rsl;
+                            "update Item SET done = :doneParam WHERE id = :idParam"
+                    )
+                            .setParameter("doneParam", true)
+                            .setParameter("idParam", id);
+                    query.executeUpdate();
+                    return item;
                 }
         );
     }
@@ -85,7 +69,6 @@ public class HbmStoreItem implements StoreItem, AutoCloseable {
         );
     }
 
-    @Override
     public List<Item> findAllUnfinished() {
         return this.tx(
                 session -> {
@@ -97,7 +80,6 @@ public class HbmStoreItem implements StoreItem, AutoCloseable {
         );
     }
 
-    @Override
     public List<Item> findByName(String name) {
         return this.tx(
                 session -> {
@@ -111,7 +93,7 @@ public class HbmStoreItem implements StoreItem, AutoCloseable {
     }
 
     @Override
-    public Item findById(int id) {
+    public Item findEntityById(int id) {
         return this.tx(
                 session -> {
                     Item item = null;
@@ -122,7 +104,7 @@ public class HbmStoreItem implements StoreItem, AutoCloseable {
     }
 
     private <T> T tx(final Function<Session, T> command) {
-        Session session = sf.getCurrentSession();
+        Session session = getSf().getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
             T rsl = command.apply(session);
@@ -133,17 +115,6 @@ public class HbmStoreItem implements StoreItem, AutoCloseable {
             throw ex;
         } finally {
             session.close();
-        }
-    }
-
-    @Override
-    public void close() throws Exception {
-        try {
-            if (sf.isOpen()) {
-                sf.close();
-            }
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
         }
     }
 }

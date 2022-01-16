@@ -2,7 +2,6 @@ package ru.job4j.servlets;
 
 import ru.job4j.entity.User;
 import ru.job4j.store.UserHbnStore;
-import ru.job4j.store.UserStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +24,7 @@ public class RegServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        UserStore store = UserHbnStore.instOf();
+        UserHbnStore store = UserHbnStore.instOf();
         if (store.findByEmail(email) != null) {
             req.setAttribute("message", "Пользователь с таким email уже зарегистрирован");
             req.getRequestDispatcher("registration.jsp").forward(req, resp);

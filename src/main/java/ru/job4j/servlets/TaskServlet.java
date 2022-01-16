@@ -3,8 +3,7 @@ package ru.job4j.servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.job4j.entity.Item;
-import ru.job4j.store.HbmStoreItem;
-import ru.job4j.store.StoreItem;
+import ru.job4j.store.ItemHbmStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +25,7 @@ public class TaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("user", req.getSession().getAttribute("user"));
-        StoreItem store = HbmStoreItem.instOf();
+        ItemHbmStore store = ItemHbmStore.instOf();
         List<Item> tasks = new CopyOnWriteArrayList<>();
         resp.setContentType("application/json; charset=utf-8");
         tasks = store.findAll();
@@ -46,8 +45,8 @@ public class TaskServlet extends HttpServlet {
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         itemFromJSON.setCreated(time);
         System.out.println("Prepared item for BD > " + itemFromJSON);
-        StoreItem store = HbmStoreItem.instOf();
-        Item itemFromDB = store.add(itemFromJSON);
+        ItemHbmStore store = ItemHbmStore.instOf();
+        Item itemFromDB = store.save(itemFromJSON);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(itemFromDB);

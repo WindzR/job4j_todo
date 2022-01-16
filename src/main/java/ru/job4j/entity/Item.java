@@ -26,8 +26,7 @@ public class Item {
 
     @ManyToOne(cascade = {CascadeType.PERSIST,
                             CascadeType.DETACH,
-                            CascadeType.REFRESH},
-                        fetch = FetchType.EAGER)
+                            CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User author;
 
