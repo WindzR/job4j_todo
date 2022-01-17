@@ -31,15 +31,13 @@ public class AuthServlet extends HttpServlet {
         if (user == null) {
             req.setAttribute("error", "Пользователь с таким email не зарегистрирован");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
+        } else if (Objects.equals(password, user.getPassword())) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", user);
+            resp.sendRedirect(req.getContextPath() + "/");
         } else {
-            if (Objects.equals(password, user.getPassword())) {
-                HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                resp.sendRedirect(req.getContextPath() + "/");
-            } else {
-                req.setAttribute("error", "Неверный пароль!");
-                req.getRequestDispatcher("login.jsp").forward(req, resp);
-            }
+            req.setAttribute("error", "Неверный пароль!");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
     }
 }
