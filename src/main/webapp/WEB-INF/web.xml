@@ -36,6 +36,11 @@
   </servlet>
 
   <servlet>
+    <servlet-name>CategoryServlet</servlet-name>
+    <servlet-class>ru.job4j.servlets.CategoryServlet</servlet-class>
+  </servlet>
+
+  <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
   </servlet>
@@ -58,6 +63,11 @@
   <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/user.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>CategoryServlet</servlet-name>
+    <url-pattern>/task_list/category.do</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

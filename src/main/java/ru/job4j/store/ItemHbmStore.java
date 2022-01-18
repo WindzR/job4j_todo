@@ -62,7 +62,9 @@ public class ItemHbmStore extends AbstractStore<Item> {
         return this.tx(
                 session -> {
                     List<Item> items = null;
-                    items = session.createQuery("from Item")
+                    items = session.createQuery(
+                            "select distinct item from Item item"
+                                    + " join fetch item.categories order by item.created")
                             .getResultList();
                     return items;
                 }
@@ -73,7 +75,10 @@ public class ItemHbmStore extends AbstractStore<Item> {
         return this.tx(
                 session -> {
                     List<Item> items = null;
-                    items = session.createQuery("from Item where done = false")
+                    items = session.createQuery(
+                            "select distinct item from Item item "
+                                    + "join fetch item.categories "
+                                    + "where item.done = false order by item.created")
                             .getResultList();
                     return items;
                 }
@@ -84,8 +89,11 @@ public class ItemHbmStore extends AbstractStore<Item> {
         return this.tx(
                 session -> {
                     List<Item> items = null;
-                    final Query query = session.createQuery("from Item where name = :nameParam");
-                    query.setParameter("nameParam", name);
+                    final Query query = session.createQuery(
+                            "select distinct item from Item item "
+                                    + "join fetch item.categories"
+                                    + " where item.name = :nameParam order by item.created")
+                            .setParameter("nameParam", name);
                     items = query.getResultList();
                     return items;
                 }
@@ -97,7 +105,11 @@ public class ItemHbmStore extends AbstractStore<Item> {
         return this.tx(
                 session -> {
                     Item item = null;
-                    item = session.get(Item.class, id);
+                    item = (Item) session.createQuery("select distinct item from Item item "
+                            + "join fetch item.categories"
+                            + " where item.id = :idParam")
+                            .setParameter("idParam", id)
+                            .uniqueResult();
                     return item;
                 }
         );

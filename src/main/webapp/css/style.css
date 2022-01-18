@@ -58,10 +58,10 @@ h2, h3, p {
 
 .task-name {
     width: 500px;
-    height: 50px;
+    height: 80px;
     font-size: 18px;
     margin-top: 50px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     border-radius: 4px;
     padding-top: 30px;
     padding-left: 40px;
@@ -69,16 +69,33 @@ h2, h3, p {
 
 .form-group {
     width: 500px;
-    height: 200px;
+    height: 80px;
     font-size: 18px;
-    margin-bottom: 25px;
+    margin-bottom: 75px;
+    margin-top: 10px;
     border-radius: 6px;
     padding-top: 30px;
     padding-left: 40px;
 }
 
+.drop-down list {
+    height: 30px;
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.list label {
+    font-size: 18px;
+    color: #090740;
+}
+
+#drop_down_list {
+}
+
 #submitButton {
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     color: #33bcc9;
     background-color: #162d4b;
 }

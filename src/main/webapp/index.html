@@ -45,10 +45,16 @@
             <label for="taskName">Название задания</label>
             <input type="text" class="form-control" id="taskName" placeholder="введите название задания">
         </div>
-        <br>
         <div class="form-group">
             <label for="description">Описание задания</label>
             <textarea class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <div class="drop-down list">
+            <label class="list label" for="drop_down_list">Категории</label>
+            <select class="custom-select mr-sm-2" id="drop_down_list">
+                <option selected>Выберите категорию...</option>
+                <option class="option_item" id="$option_id" value="$option_id">$option_value</option>
+            </select>
         </div>
         <button type="reset" class="btn btn-success" id="submitButton"
             onclick="getTaskList()">
@@ -95,7 +101,7 @@
         <input id="user_attr" type="hidden" value='${}'>
     </div>
     <button type="reset" class="btn btn-success" id="testButton"
-            onclick="setUser()">
+            onclick="setStatus()">
         Протестить вывод элементов
     </button>
 </div>

@@ -2,6 +2,8 @@ package ru.job4j.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "itemList")
@@ -25,10 +27,16 @@ public class Item {
     private boolean done;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,
+                            CascadeType.MERGE,
                             CascadeType.DETACH,
                             CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User author;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,
+                            CascadeType.MERGE,
+                            CascadeType.REFRESH})
+    private Set<Category> categories = new HashSet<>();
 
     public Item() {
     }
@@ -38,6 +46,10 @@ public class Item {
         this.description = description;
         this.created = created;
         this.done = done;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
     }
 
     public int getId() {
@@ -80,6 +92,22 @@ public class Item {
         this.done = done;
     }
 
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public String toString() {
         return "Item{"
@@ -89,6 +117,7 @@ public class Item {
                 + ", created=" + created
                 + ", done=" + done
                 + ", author=" + author
+                + ", categories=" + categories
                 + '}';
     }
 }

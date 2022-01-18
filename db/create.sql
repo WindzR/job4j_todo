@@ -13,3 +13,8 @@ CREATE TABLE IF NOT EXISTS users (
     email text UNIQUE,
     password text
 );
+
+CREATE TABLE IF NOT EXISTS categories (
+    id serial primary key,
+    name text
+);

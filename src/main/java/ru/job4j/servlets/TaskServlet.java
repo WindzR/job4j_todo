@@ -29,7 +29,7 @@ public class TaskServlet extends HttpServlet {
         List<Item> tasks = new CopyOnWriteArrayList<>();
         resp.setContentType("application/json; charset=utf-8");
         tasks = store.findAll();
-        System.out.println("Список заданий --> " + tasks);
+        System.out.println("TASKS LIST --> " + tasks);
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(tasks);
         output.write(json.getBytes(StandardCharsets.UTF_8));
@@ -47,6 +47,8 @@ public class TaskServlet extends HttpServlet {
         System.out.println("Prepared item for BD > " + itemFromJSON);
         ItemHbmStore store = ItemHbmStore.instOf();
         Item itemFromDB = store.save(itemFromJSON);
+        Item itemForWeb = store.findEntityById(itemFromDB.getId());
+        System.out.println("Prepared FOR index.html > " + itemForWeb);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(itemFromDB);

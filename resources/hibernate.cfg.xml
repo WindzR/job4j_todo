@@ -18,5 +18,6 @@
 
         <mapping class="ru.job4j.entity.Item" />
         <mapping class="ru.job4j.entity.User" />
+        <mapping class="ru.job4j.entity.Category" />
     </session-factory>
 </hibernate-configuration>
