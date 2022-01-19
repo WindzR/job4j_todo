@@ -3,7 +3,6 @@ package ru.job4j.servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.job4j.entity.Category;
-import ru.job4j.entity.User;
 import ru.job4j.store.CategoryHbnStore;
 
 import javax.servlet.ServletException;

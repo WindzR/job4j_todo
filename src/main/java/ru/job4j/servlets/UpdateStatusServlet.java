@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class UpdateStatusServlet extends HttpServlet {
 
@@ -21,9 +19,6 @@ public class UpdateStatusServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Item itemFromJSON = GSON.fromJson(req.getReader(), Item.class);
-        System.out.println("Object from JSON > " + itemFromJSON);
-        LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        itemFromJSON.setCreated(time);
         System.out.println("Prepared item for BD > " + itemFromJSON);
         ItemHbmStore store = ItemHbmStore.instOf();
         store.update(itemFromJSON.getId(), itemFromJSON);

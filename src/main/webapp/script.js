@@ -31,6 +31,9 @@ function clearListItem() {
     console.log('dropList in clearListItem --> ' + dropList);
 }
 
+/*
+Основная функция для запроса заданий из БД и парсинга их на страницу
+ */
 function getRequestAllTasks() {
     $.ajax({
         type: 'GET',
@@ -39,8 +42,11 @@ function getRequestAllTasks() {
     }).done(function (data) {
         addRow(data);
         json_tasks = data;
+//        categories = data.categories;
+//        console.log('CATEGORIES data -> ' + categories);
         console.log('Response OK 200');
         console.log('JSON data -> ' + json_tasks);
+//        parseCategory(categories);
         setStatus(json_tasks);
     }).fail(function (err) {
         console.log(err);
@@ -62,6 +68,9 @@ function getUser() {
     });
 }
 
+/*
+Использовалась для запроса категорий и вывода категорий в список
+ */
 function getCategory() {
     $.ajax({
         type: 'GET',
@@ -76,6 +85,16 @@ function getCategory() {
         });
     }).fail(function (err) {
         console.log(err);
+    });
+}
+
+/*
+Функция для вывода категорий в список
+ */
+function parseCategory(data) {
+    $.each(data, function (i, item) {
+        console.log('CATEGORIES ID -> ' + item.id + ' NAME --> ' + item.name);
+        setCategories(item.id, item.name);
     });
 }
 

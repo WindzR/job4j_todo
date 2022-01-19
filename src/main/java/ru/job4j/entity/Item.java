@@ -1,7 +1,7 @@
 package ru.job4j.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +20,9 @@ public class Item {
     @Column(name = "description")
     private String description;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
-    private LocalDateTime created;
+    private Date created = new Date(System.currentTimeMillis());
 
     @Column(name = "done")
     private boolean done;
@@ -41,7 +42,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, String description, LocalDateTime created, boolean done) {
+    public Item(String name, String description, Date created, boolean done) {
         this.name = name;
         this.description = description;
         this.created = created;
@@ -76,11 +77,11 @@ public class Item {
         this.description = description;
     }
 
-    public LocalDateTime getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
