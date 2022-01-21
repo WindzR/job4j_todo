@@ -12,6 +12,13 @@ var post_category = [];
 
 var dropList;
 
+$(document).ready(function () {
+    clearListItem();
+    getUser();
+    getCategory();
+    getRequestAllTasks();
+} );
+
 function element(id) {
     return document.getElementById(id);
 }
@@ -42,11 +49,8 @@ function getRequestAllTasks() {
     }).done(function (data) {
         addRow(data);
         json_tasks = data;
-//        categories = data.categories;
-//        console.log('CATEGORIES data -> ' + categories);
         console.log('Response OK 200');
         console.log('JSON data -> ' + json_tasks);
-//        parseCategory(categories);
         setStatus(json_tasks);
     }).fail(function (err) {
         console.log(err);
@@ -114,13 +118,6 @@ function getRequestUnfinishedTasks() {
     });
 }
 
-$(document).ready(function () {
-    clearListItem();
-    getUser();
-    getCategory();
-    getRequestAllTasks();
-} );
-
 function addRow(data) {
     $.each(data, function (i, item) {
         addTaskFromDb(item);
@@ -149,6 +146,7 @@ function setCategories(id, name) {
     $('#drop_down_list:last-child')
         .append(dropList
             .replace('$option_id', id)
+            .replace('$option_id', id)
             .replace('$option_value', name));
 }
 
@@ -175,7 +173,7 @@ function addTaskFromDb(item) {
         );
 }
 
-function getTaskList() {
+function saveTask() {
     validationTask();
     $.ajax({
         type: 'POST',
@@ -206,16 +204,18 @@ function validationTask() {
     let name = $('#taskName').val();
     let descr = $('#description').val();
     let empty_category = $('#drop_down_list option:selected').text().startsWith('Выберите');
-    let categoryId = $('#drop_down_list option:selected').prop('id');
+    let categoryIds = $('#drop_down_list').val();
+    console.log('MASSIV id ********** ' + '[' + categoryIds.toString() + ']');
     if (!empty_category && name !== '' && descr !== '') {
-        post_category.push({id : categoryId});
+        for(let key in categoryIds) {
+            post_category.push({id : categoryIds[key]});
+        }
     } else {
         alert('Заполните все поля или выберите категорию задачи!');
     }
     console.log(name);
     console.log(descr);
     console.log('СРАВНЕНИЕ СТРОК ---' + empty_category);
-    console.log('ID SELECT ---- ' + categoryId);
     console.log('POST CATEGORY ---- ' + post_category[0]);
 }
 

@@ -37,6 +37,11 @@ public class Item {
     @ManyToMany(cascade = {CascadeType.PERSIST,
                             CascadeType.MERGE,
                             CascadeType.REFRESH})
+    @JoinTable(
+            name = "itemlist_categories",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id")
+    )
     private Set<Category> categories = new HashSet<>();
 
     public Item() {

@@ -41,7 +41,7 @@ body {
 .task-form {
     display: block;
     width: 550px;
-    height: 340px;
+    height: 390px;
     background-color: #32a7b4;
     margin: auto auto 0 auto;
     text-align: center;
@@ -86,6 +86,8 @@ h2, h3, p {
 }
 
 .list label {
+    text-align: center;
+    vertical-align: 50px;
     font-size: 18px;
     color: #090740;
 }

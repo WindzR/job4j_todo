@@ -51,13 +51,13 @@
         </div>
         <div class="drop-down list">
             <label class="list label" for="drop_down_list">Категории</label>
-            <select class="custom-select mr-sm-2" id="drop_down_list">
+            <select name="item_categories[]" class="custom-select mr-sm-2" id="drop_down_list" multiple="multiple" size="4">
                 <option selected>Выберите категорию...</option>
                 <option class="option_item" id="$option_id" value="$option_id">$option_value</option>
             </select>
         </div>
         <button type="reset" class="btn btn-success" id="submitButton"
-            onclick="getTaskList()">
+            onclick="saveTask()">
                 Добавить задачу
         </button>
     </form>
