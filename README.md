@@ -1,8 +1,7 @@
 # job4j_todo
 Проект список заданий из курса [job4j](https://job4j.ru/).
 
-![todo_1](images/version_3.jpg)
-![todo_2](images/drop_down_list.jpg)
+![todo_1](images/version_4.jpg)
 
 
 ### Этот проект представляет веб приложение для добавления новых задач и отслеживание их выполнения .
