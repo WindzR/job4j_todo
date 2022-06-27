@@ -1,3 +1,12 @@
+![](https://img.shields.io/badge/Maven-_3-red)
+![](https://img.shields.io/badge/Java-_8-green)
+![](https://img.shields.io/badge/ServletAPI-_4-darkorange)
+![](https://img.shields.io/badge/Hibernate-_5.4-blue)
+![](https://img.shields.io/badge/PostgerSQL-_13.2-blue)
+![](https://img.shields.io/badge/Bootstrap-_3-red)
+![](https://img.shields.io/badge/AJAX-_3.3.1-red)
+![](https://img.shields.io/badge/Checkstyle-yellow)
+
 # job4j_todo
 Проект список заданий из курса [job4j](https://job4j.ru/).
 
@@ -13,17 +22,22 @@
 
 #### Используемые технологии:
 
-- PostgreSQL в качестве БД
+- PostgreSQL 13.2
 
-- ORM Hibernate для работы с БД
+- ORM Hibernate 5.4
 
-- Servlet API для управления бизнес-логикой
+- Servlet API 4.0.1
 
-- Javascript, Jquery, AJAX, HTML для отображения заданий
+- Javascript, Bootstrap 3.3.7
+
+- AJAX 3.3.1
 
 #### В проекте есть авторизация и регистрация:
 
 *Пользователи сохраняются в БД PostgreSQL*
 
+#### Авторизация пользователя
 ![todo_2](images/Todo_1.png)
+
+#### Регистрация пользователя
 ![todo_2](images/Todo_2.png)
